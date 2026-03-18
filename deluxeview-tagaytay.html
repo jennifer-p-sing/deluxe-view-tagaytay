@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>De'Luxe View — Tagaytay Private Staycation</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Nunito:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --teal-dark:   #0d5c5c;
+    --teal:        #147070;
+    --teal-mid:    #1a8a8a;
+    --teal-light:  #2aaeae;
+    --teal-pale:   #e0f4f4;
+    --teal-bg:     #f0fafa;
+    --gold:        #c9a840;
+    --gold-light:  #e8cc6a;
+    --gold-pale:   #fdf7e3;
+    --white:       #ffffff;
+    --off-white:   #f8fefe;
+    --charcoal:    #1e2e2e;
+    --text:        #2e3e3e;
+    --text-muted:  #6a8a8a;
+  }
+
+  html { scroll-behavior: smooth; }
+  body { font-family: 'Nunito', sans-serif; background: var(--off-white); color: var(--text); overflow-x: hidden; }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.4rem 3rem;
+    transition: background 0.4s, padding 0.4s, box-shadow 0.4s;
+  }
+  nav.scrolled {
+    background: rgba(13,92,92,0.97);
+    padding: 0.9rem 3rem;
+    box-shadow: 0 4px 30px rgba(0,0,0,0.2);
+    backdrop-filter: blur(12px);
+  }
+  .nav-logo { display: flex; align-items: center; gap: 0.7rem; text-decoration: none; }
+  .logo-text .line1 { font-family: 'Playfair Display', serif; font-size: 1.15rem; font-weight: 700; color: white; letter-spacing: 0.06em; }
+  .logo-text .line1 span { color: var(--gold-light); font-style: italic; }
+  .logo-text .line2 { font-size: 0.58rem; letter-spacing: 0.22em; text-transform: uppercase; color: rgba(255,255,255,0.55); }
+  .nav-links { display: flex; gap: 0.3rem; list-style: none; align-items: center; }
+  .nav-links a { color: rgba(255,255,255,0.85); text-decoration: none; font-size: 0.8rem; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.4rem 0.9rem; border-radius: 20px; transition: background 0.3s, color 0.3s; font-weight: 600; }
+  .nav-links a:hover { background: rgba(255,255,255,0.12); color: var(--gold-light); }
+  .nav-links .nav-cta { background: var(--gold); color: var(--teal-dark) !important; padding: 0.5rem 1.4rem; font-weight: 700; }
+  .nav-links .nav-cta:hover { background: var(--gold-light) !important; }
+
+  /* HERO */
+  .hero { position: relative; min-height: 100vh; display: flex; align-items: center; justify-content: center; overflow: hidden; background: var(--teal-dark); }
+  .hero-bg {
+    position: absolute; inset: 0;
+    background: linear-gradient(160deg, rgba(13,92,92,0.72) 0%, rgba(13,92,92,0.42) 40%, rgba(10,35,35,0.88) 100%),
+      url('https://images.unsplash.com/photo-1540541338287-41700207dee6?w=1800&q=85') center/cover no-repeat;
+    animation: zoomIn 14s ease-out forwards;
+  }
+  @keyframes zoomIn { from { transform: scale(1.08); } to { transform: scale(1); } }
+  .hero::after {
+    content: ''; position: absolute; bottom: -2px; left: 0; right: 0; height: 80px;
+    background: var(--off-white);
+    clip-path: polygon(0 60%,3% 40%,6% 55%,10% 30%,14% 50%,18% 25%,22% 45%,27% 15%,31% 40%,35% 20%,40% 45%,44% 10%,48% 35%,52% 5%,56% 30%,60% 10%,64% 40%,68% 20%,72% 45%,76% 15%,80% 38%,84% 18%,88% 42%,92% 22%,96% 45%,100% 30%,100% 100%,0 100%);
+  }
+  .hero-content { position: relative; z-index: 2; text-align: center; color: white; padding: 0 2rem; animation: fadeUp 1.2s ease-out 0.4s both; }
+  @keyframes fadeUp { from { opacity:0; transform:translateY(35px); } to { opacity:1; transform:translateY(0); } }
+  .hero-eyebrow { display: inline-flex; align-items: center; gap: 0.6rem; font-size: 0.72rem; letter-spacing: 0.35em; text-transform: uppercase; color: var(--gold-light); background: rgba(201,168,64,0.15); border: 1px solid rgba(201,168,64,0.3); padding: 0.4rem 1.2rem; border-radius: 30px; margin-bottom: 1.5rem; }
+  .hero-title { font-family: 'Playfair Display', serif; font-size: clamp(3.5rem, 9vw, 8rem); font-weight: 900; line-height: 0.95; margin-bottom: 0.2rem; }
+  .hero-title .la { color: var(--gold); display: block; }
+  .hero-title .lb { color: white; display: block; }
+  .hero-title .lc { color: var(--gold-light); font-style: italic; display: block; }
+  .hero-desc { font-size: clamp(0.9rem, 2vw, 1.1rem); color: rgba(255,255,255,0.75); max-width: 480px; margin: 1.5rem auto 2.5rem; line-height: 1.8; }
+  .hero-desc strong { color: var(--gold-light); }
+  .hero-btns { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+  .btn-gold { display: inline-block; background: var(--gold); color: var(--teal-dark); text-decoration: none; padding: 1rem 2.6rem; font-size: 0.82rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; border-radius: 40px; transition: background 0.3s, transform 0.2s, box-shadow 0.3s; box-shadow: 0 6px 25px rgba(201,168,64,0.4); }
+  .btn-gold:hover { background: var(--gold-light); transform: translateY(-3px); box-shadow: 0 12px 35px rgba(201,168,64,0.5); }
+  .btn-ghost { display: inline-block; background: transparent; color: white; text-decoration: none; padding: 1rem 2.6rem; font-size: 0.82rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; border-radius: 40px; border: 2px solid rgba(255,255,255,0.45); transition: border-color 0.3s, background 0.3s; }
+  .btn-ghost:hover { border-color: white; background: rgba(255,255,255,0.1); }
+  .hero-phone { margin-top: 2.5rem; display: inline-flex; align-items: center; gap: 0.6rem; font-size: 1.1rem; font-weight: 700; color: white; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); padding: 0.6rem 1.6rem; border-radius: 40px; text-decoration: none; }
+  .hero-phone span { color: var(--gold-light); }
+
+  /* RIBBON */
+  .ribbon { background: var(--teal); padding: 2.5rem 3rem; display: flex; justify-content: center; gap: 0; flex-wrap: wrap; }
+  .ribbon-stat { text-align: center; padding: 0 3rem; color: white; position: relative; }
+  .ribbon-stat + .ribbon-stat::before { content: ''; position: absolute; left: 0; top: 15%; bottom: 15%; width: 1px; background: rgba(255,255,255,0.2); }
+  .ribbon-stat .num { font-family: 'Playfair Display', serif; font-size: 2.4rem; font-weight: 700; color: var(--gold-light); display: block; line-height: 1; }
+  .ribbon-stat .lbl { font-size: 0.68rem; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(255,255,255,0.6); margin-top: 0.3rem; display: block; }
+
+  /* SHARED */
+  .eyebrow { font-size: 0.7rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--teal-mid); font-weight: 700; margin-bottom: 0.8rem; display: flex; align-items: center; gap: 0.6rem; }
+  .eyebrow::before, .eyebrow::after { content: ''; flex: 1; max-width: 40px; height: 1px; background: var(--teal-mid); }
+  .eyebrow.center { justify-content: center; }
+  .section-title { font-family: 'Playfair Display', serif; font-size: clamp(2rem, 4vw, 3.2rem); font-weight: 700; color: var(--teal-dark); line-height: 1.15; }
+  .section-title em { font-style: italic; color: var(--teal-mid); }
+  .section-title .gold { color: var(--gold); }
+
+  /* ABOUT */
+  .about-section { padding: 8rem 3rem; background: var(--off-white); }
+  .about-inner { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center; }
+  .about-photos { position: relative; }
+  .photo-main { width: 100%; aspect-ratio: 3/4; border-radius: 12px; overflow: hidden; box-shadow: 0 20px 60px rgba(13,92,92,0.2); }
+  .photo-main img { width: 100%; height: 100%; object-fit: cover; }
+  .photo-accent { position: absolute; bottom: -2.5rem; right: -2.5rem; width: 58%; aspect-ratio: 4/3; border-radius: 10px; overflow: hidden; border: 5px solid white; box-shadow: 0 10px 40px rgba(13,92,92,0.2); }
+  .photo-accent img { width: 100%; height: 100%; object-fit: cover; }
+  .photo-badge { position: absolute; top: -1.5rem; left: -1.5rem; width: 120px; height: 120px; background: var(--gold); border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center; color: var(--teal-dark); box-shadow: 0 8px 30px rgba(201,168,64,0.4); }
+  .photo-badge .big { font-family: 'Playfair Display', serif; font-size: 2.2rem; font-weight: 900; line-height: 1; }
+  .photo-badge .sm { font-size: 0.58rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; text-align: center; line-height: 1.3; }
+  .about-text .section-title { margin-bottom: 1.5rem; }
+  .about-text .lead { font-size: 1rem; line-height: 1.85; color: #4a6a6a; margin-bottom: 1.2rem; }
+  .about-tagline { font-family: 'Playfair Display', serif; font-size: 1.2rem; font-style: italic; color: var(--teal); border-left: 4px solid var(--gold); padding-left: 1.2rem; margin: 2rem 0; line-height: 1.6; }
+
+  /* AMENITIES */
+  .amenities-section { padding: 8rem 3rem; background: var(--teal-dark); position: relative; overflow: hidden; }
+  .amenities-section::before { content: ''; position: absolute; top: -78px; left: 0; right: 0; height: 80px; background: var(--off-white); clip-path: polygon(0 60%,3% 40%,6% 55%,10% 30%,14% 50%,18% 25%,22% 45%,27% 15%,31% 40%,35% 20%,40% 45%,44% 10%,48% 35%,52% 5%,56% 30%,60% 10%,64% 40%,68% 20%,72% 45%,76% 15%,80% 38%,84% 18%,88% 42%,92% 22%,96% 45%,100% 30%,100% 0%,0 0%); }
+  .amenities-section .eyebrow { color: var(--gold-light); }
+  .amenities-section .eyebrow::before, .amenities-section .eyebrow::after { background: var(--gold-light); }
+  .amenities-section .section-title { color: white; }
+  .amenities-section .section-title em { color: var(--gold-light); }
+  .amenities-header { text-align: center; margin-bottom: 4rem; }
+  .amenities-header p { color: rgba(255,255,255,0.65); max-width: 500px; margin: 1rem auto 0; line-height: 1.8; }
+  .amenities-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(270px, 1fr)); gap: 1.5rem; max-width: 1200px; margin: 0 auto; }
+  .amenity-card { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); border-radius: 14px; padding: 2.5rem 2rem; transition: background 0.3s, transform 0.3s, border-color 0.3s; position: relative; overflow: hidden; }
+  .amenity-card:hover { background: rgba(255,255,255,0.1); transform: translateY(-6px); border-color: rgba(201,168,64,0.4); }
+  .amenity-card .icon-wrap { width: 60px; height: 60px; background: rgba(201,168,64,0.15); border: 1px solid rgba(201,168,64,0.3); border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 1.8rem; margin-bottom: 1.2rem; }
+  .amenity-card h3 { font-family: 'Playfair Display', serif; font-size: 1.25rem; font-weight: 700; color: white; margin-bottom: 0.6rem; }
+  .amenity-card p { font-size: 0.88rem; color: rgba(255,255,255,0.6); line-height: 1.7; }
+  .amenity-card .tag { position: absolute; top: 1rem; right: 1rem; background: var(--gold); color: var(--teal-dark); font-size: 0.6rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; padding: 0.25rem 0.6rem; border-radius: 20px; }
+
+  /* GALLERY */
+  .gallery-section { padding: 8rem 3rem; background: var(--teal-pale); }
+  .gallery-header { text-align: center; margin-bottom: 3rem; }
+  .gallery-mosaic { display: grid; grid-template-columns: repeat(12, 1fr); grid-template-rows: 240px 240px 240px; gap: 10px; max-width: 1200px; margin: 0 auto; border-radius: 14px; overflow: hidden; }
+  .gi { overflow: hidden; position: relative; background: var(--teal); }
+  .gi img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s; display: block; }
+  .gi:hover img { transform: scale(1.07); }
+  .gi.a { grid-column: 1/5; grid-row: 1/3; }
+  .gi.b { grid-column: 5/8; grid-row: 1/2; }
+  .gi.c { grid-column: 8/13; grid-row: 1/2; }
+  .gi.d { grid-column: 5/9; grid-row: 2/4; }
+  .gi.e { grid-column: 9/13; grid-row: 2/3; }
+  .gi.f { grid-column: 1/5; grid-row: 3/4; }
+  .gi.g { grid-column: 9/13; grid-row: 3/4; }
+
+  /* PRICING */
+  .pricing-section { padding: 8rem 3rem; background: white; }
+  .pricing-header { text-align: center; margin-bottom: 4rem; }
+  .pricing-header p { color: var(--text-muted); max-width: 480px; margin: 1rem auto 0; line-height: 1.8; }
+  .pricing-wrapper { max-width: 900px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1.1fr; gap: 2rem; }
+  .price-card { border-radius: 18px; overflow: hidden; box-shadow: 0 10px 50px rgba(13,92,92,0.1); transition: transform 0.3s; }
+  .price-card:hover { transform: translateY(-6px); }
+  .price-card .card-top { background: var(--teal); padding: 2.5rem 2rem; text-align: center; }
+  .price-card.featured .card-top { background: var(--gold); }
+  .card-top .plan-label { font-size: 0.7rem; letter-spacing: 0.25em; text-transform: uppercase; color: rgba(255,255,255,0.75); margin-bottom: 0.5rem; }
+  .price-card.featured .card-top .plan-label { color: rgba(13,40,40,0.7); }
+  .card-top .price { font-family: 'Playfair Display', serif; font-size: 3.5rem; font-weight: 900; color: white; line-height: 1; }
+  .price-card.featured .card-top .price { color: var(--teal-dark); }
+  .card-top .price sup { font-size: 1.4rem; vertical-align: top; margin-top: 0.6rem; display: inline-block; }
+  .card-top .duration { font-size: 0.82rem; color: rgba(255,255,255,0.65); margin-top: 0.4rem; }
+  .price-card.featured .card-top .duration { color: rgba(13,40,40,0.6); }
+  .best-tag { display: inline-block; background: white; color: var(--gold); font-size: 0.62rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; padding: 0.25rem 0.8rem; border-radius: 20px; margin-bottom: 0.7rem; }
+  .card-body { background: white; padding: 2rem; }
+  .card-pax { font-family: 'Playfair Display', serif; font-size: 1.1rem; color: var(--teal-dark); text-align: center; padding-bottom: 1.2rem; margin-bottom: 1.2rem; border-bottom: 1px solid #e0f0f0; }
+  .card-features { list-style: none; }
+  .card-features li { display: flex; align-items: center; gap: 0.7rem; padding: 0.45rem 0; font-size: 0.88rem; color: #4a6a6a; }
+  .card-features li::before { content: '✓'; width: 20px; height: 20px; background: var(--teal-pale); color: var(--teal); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.7rem; font-weight: 700; flex-shrink: 0; }
+  .card-footer { padding: 0 2rem 2rem; background: white; }
+  .btn-teal { display: block; text-align: center; background: var(--teal); color: white; text-decoration: none; padding: 0.9rem; font-size: 0.8rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; border-radius: 40px; transition: background 0.3s; }
+  .btn-teal:hover { background: var(--teal-dark); }
+  .price-card.featured .card-footer .btn-teal { background: var(--gold); color: var(--teal-dark); }
+  .price-card.featured .card-footer .btn-teal:hover { background: var(--gold-light); }
+
+  /* LOCATION */
+  .location-section { padding: 8rem 3rem; background: var(--teal-dark); }
+  .location-inner { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center; }
+  .location-section .eyebrow { color: var(--gold-light); }
+  .location-section .eyebrow::before, .location-section .eyebrow::after { background: var(--gold-light); }
+  .location-section .section-title { color: white; }
+  .location-section .section-title em { color: var(--gold-light); }
+  .location-section > .location-inner > div > p { color: rgba(255,255,255,0.7); line-height: 1.85; margin: 1.2rem 0; }
+  .loc-details { margin-top: 2rem; display: flex; flex-direction: column; gap: 0.8rem; }
+  .loc-row { display: flex; align-items: flex-start; gap: 1rem; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); padding: 1rem 1.2rem; border-radius: 10px; }
+  .loc-row .ico { font-size: 1.4rem; flex-shrink: 0; }
+  .loc-row strong { display: block; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--gold-light); margin-bottom: 0.2rem; }
+  .loc-row span { font-size: 0.88rem; color: rgba(255,255,255,0.65); }
+  .loc-map { aspect-ratio: 4/3; background: linear-gradient(135deg, rgba(22,110,110,0.5), rgba(13,60,60,0.8)), url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&q=80') center/cover; border-radius: 16px; display: flex; flex-direction: column; align-items: center; justify-content: center; border: 2px solid rgba(201,168,64,0.3); text-align: center; padding: 2rem; }
+  .loc-map .pin { font-size: 3rem; animation: pulse 2s infinite; }
+  @keyframes pulse { 0%,100%{transform:scale(1);} 50%{transform:scale(1.2);} }
+  .loc-map h3 { font-family: 'Playfair Display', serif; font-size: 1.8rem; color: white; margin-top: 0.8rem; }
+  .loc-map p { color: rgba(255,255,255,0.6); font-size: 0.85rem; margin: 0.4rem 0 1.2rem; }
+  .loc-map a { display: inline-block; background: var(--gold); color: var(--teal-dark); text-decoration: none; padding: 0.6rem 1.6rem; border-radius: 30px; font-size: 0.78rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; transition: background 0.3s; }
+  .loc-map a:hover { background: var(--gold-light); }
+
+  /* TESTIMONIALS */
+  .testimonials-section { padding: 8rem 3rem; background: var(--off-white); }
+  .testimonials-header { text-align: center; margin-bottom: 4rem; }
+  .testimonials-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 2rem; max-width: 1100px; margin: 0 auto; }
+  .testi-card { background: white; border-radius: 16px; padding: 2.5rem; box-shadow: 0 4px 30px rgba(13,92,92,0.08); border: 1px solid rgba(13,92,92,0.06); transition: transform 0.3s, box-shadow 0.3s; position: relative; }
+  .testi-card:hover { transform: translateY(-5px); box-shadow: 0 15px 50px rgba(13,92,92,0.12); }
+  .testi-card .q { font-family: 'Playfair Display', serif; font-size: 5rem; line-height: 0.7; color: var(--teal-pale); position: absolute; top: 1.5rem; left: 1.5rem; font-weight: 900; }
+  .testi-card .stars { color: var(--gold); font-size: 1rem; margin-bottom: 1rem; padding-top: 0.5rem; }
+  .testi-card .txt { font-family: 'Playfair Display', serif; font-size: 1.05rem; font-style: italic; color: var(--teal-dark); line-height: 1.75; margin-bottom: 1.5rem; position: relative; z-index: 1; }
+  .testi-card .auth { font-size: 0.78rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--teal-mid); }
+
+  /* CTA */
+  .cta-section { padding: 7rem 3rem; background: var(--gold); text-align: center; position: relative; overflow: hidden; }
+  .cta-section::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at 30% 50%, rgba(255,255,255,0.12) 0%, transparent 65%), radial-gradient(ellipse at 70% 50%, rgba(13,92,92,0.15) 0%, transparent 65%); }
+  .cta-section .section-title { color: var(--teal-dark); position: relative; z-index: 1; }
+  .cta-section > p { color: rgba(13,60,60,0.75); max-width: 480px; margin: 1rem auto 2rem; line-height: 1.8; position: relative; z-index: 1; }
+  .cta-phone { display: inline-flex; align-items: center; gap: 0.8rem; font-size: 1.8rem; font-weight: 700; color: var(--teal-dark); text-decoration: none; position: relative; z-index: 1; margin-bottom: 2rem; display: block; }
+  .cta-btns { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; position: relative; z-index: 1; }
+  .btn-white { display: inline-block; background: white; color: var(--gold); text-decoration: none; padding: 1rem 2.6rem; font-size: 0.82rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; border-radius: 40px; transition: transform 0.2s, box-shadow 0.3s; box-shadow: 0 6px 25px rgba(0,0,0,0.12); }
+  .btn-white:hover { transform: translateY(-3px); box-shadow: 0 12px 35px rgba(0,0,0,0.18); }
+  .btn-teal-dark { display: inline-block; background: var(--teal-dark); color: white; text-decoration: none; padding: 1rem 2.6rem; font-size: 0.82rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; border-radius: 40px; transition: background 0.3s; }
+  .btn-teal-dark:hover { background: var(--teal); }
+
+  /* FOOTER */
+  footer { background: #0a3a3a; padding: 4rem 3rem 2rem; }
+  .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 3rem; max-width: 1200px; margin: 0 auto 3rem; }
+  .footer-logo { font-family: 'Playfair Display', serif; font-size: 1.6rem; font-weight: 700; color: white; display: block; margin-bottom: 1rem; }
+  .footer-logo em { font-style: italic; color: var(--gold-light); }
+  .footer-brand p { font-size: 0.88rem; color: rgba(255,255,255,0.5); line-height: 1.75; max-width: 280px; }
+  .footer-socials { display: flex; gap: 0.8rem; margin-top: 1.5rem; }
+  .soc-btn { width: 40px; height: 40px; background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.15); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: rgba(255,255,255,0.6); text-decoration: none; font-size: 0.85rem; font-weight: 700; transition: background 0.3s, color 0.3s, border-color 0.3s; }
+  .soc-btn:hover { background: var(--gold); border-color: var(--gold); color: var(--teal-dark); }
+  .footer-col h4 { font-size: 0.72rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--gold-light); margin-bottom: 1.2rem; }
+  .footer-col ul { list-style: none; }
+  .footer-col li { margin-bottom: 0.6rem; }
+  .footer-col a { color: rgba(255,255,255,0.5); text-decoration: none; font-size: 0.88rem; transition: color 0.3s; }
+  .footer-col a:hover { color: var(--gold-light); }
+  .footer-bottom { border-top: 1px solid rgba(255,255,255,0.08); padding-top: 1.5rem; text-align: center; font-size: 0.78rem; color: rgba(255,255,255,0.35); max-width: 1200px; margin: 0 auto; }
+
+  /* FLOAT */
+  .float-btn { position: fixed; bottom: 2rem; right: 2rem; z-index: 999; background: var(--gold); color: var(--teal-dark); text-decoration: none; padding: 0.85rem 1.8rem; border-radius: 40px; font-size: 0.78rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; box-shadow: 0 8px 30px rgba(201,168,64,0.45); display: flex; align-items: center; gap: 0.5rem; transition: transform 0.2s, box-shadow 0.2s; }
+  .float-btn:hover { transform: translateY(-3px); box-shadow: 0 14px 40px rgba(201,168,64,0.55); }
+
+  /* REVEAL */
+  .reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.7s ease, transform 0.7s ease; }
+  .reveal.up { opacity: 1; transform: translateY(0); }
+
+  /* RESPONSIVE */
+  @media (max-width: 900px) {
+    nav { padding: 1rem 1.5rem; }
+    .nav-links { display: none; }
+    .about-inner, .location-inner, .pricing-wrapper { grid-template-columns: 1fr; gap: 2.5rem; }
+    .photo-accent { right: 0; bottom: -1.5rem; }
+    .gallery-mosaic { grid-template-columns: 1fr 1fr; grid-template-rows: auto; }
+    .gi.a,.gi.b,.gi.c,.gi.d,.gi.e,.gi.f,.gi.g { grid-column: auto; grid-row: auto; height: 200px; }
+    .footer-grid { grid-template-columns: 1fr; gap: 2rem; }
+    .ribbon-stat { padding: 0 1.5rem; }
+    section, .about-section, .amenities-section, .gallery-section, .pricing-section, .location-section, .testimonials-section { padding: 5rem 1.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<nav id="nav">
+  <a href="#" class="nav-logo">
+    <div class="logo-text">
+      <div class="line1">De'<span>Luxe</span> View</div>
+      <div class="line2">Tagaytay Private Staycation</div>
+    </div>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#amenities">Amenities</a></li>
+    <li><a href="#gallery">Gallery</a></li>
+    <li><a href="#rates">Rates</a></li>
+    <li><a href="#location">Location</a></li>
+    <li><a href="https://www.facebook.com/p/Deluxe-View-Tagaytay-Private-Staycation-61559700257659/" target="_blank" class="nav-cta">Book Now</a></li>
+  </ul>
+</nav>
+
+<a href="tel:09175921991" class="float-btn">📞 Book Now</a>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">📍 Tagaytay, Cavite, Philippines</div>
+    <h1 class="hero-title">
+      <span class="la">De'Luxe</span>
+      <span class="lb">View</span>
+      <span class="lc">Tagaytay</span>
+    </h1>
+    <p class="hero-desc"><strong>Unwind in a serene hideaway,</strong><br>where luxury meets nature. Your private paradise — pool, cinema, gaming room & more, all in one place.</p>
+    <div class="hero-btns">
+      <a href="https://www.facebook.com/p/Deluxe-View-Tagaytay-Private-Staycation-61559700257659/" target="_blank" class="btn-gold">Reserve Now</a>
+      <a href="#amenities" class="btn-ghost">See Amenities</a>
+    </div>
+    <a href="tel:09175921991" class="hero-phone">📞 <span>0917 592 1991</span></a>
+  </div>
+</section>
+
+<!-- RIBBON -->
+<div class="ribbon">
+  <div class="ribbon-stat"><span class="num">20</span><span class="lbl">Max Guests</span></div>
+  <div class="ribbon-stat"><span class="num">22</span><span class="lbl">Hour Exclusive Stay</span></div>
+  <div class="ribbon-stat"><span class="num">5+</span><span class="lbl">Premium Amenities</span></div>
+  <div class="ribbon-stat"><span class="num">100%</span><span class="lbl">Private & Exclusive</span></div>
+</div>
+
+<!-- ABOUT -->
+<section class="about-section" id="about">
+  <div class="about-inner">
+    <div class="about-photos reveal">
+      <div class="photo-badge"><span class="big">★</span><span class="sm">Private<br>Exclusive</span></div>
+      <div class="photo-main"><img src="https://images.unsplash.com/photo-1571896349842-33c89424de2d?w=800&q=85" alt="Swimming pool"/></div>
+      <div class="photo-accent"><img src="https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=600&q=85" alt="Hotel room"/></div>
+    </div>
+    <div class="about-text reveal">
+      <div class="eyebrow">About De'Luxe View</div>
+      <h2 class="section-title">Your All-In-One<br><em>Private Hideaway</em></h2>
+      <blockquote class="about-tagline">"Unwind in a serene hideaway, where luxury meets nature."</blockquote>
+      <p class="lead">Nestled in the cool highlands of Tagaytay, De'Luxe View is your complete private staycation destination. We've packed everything you love into one exclusive space — so your group never has to leave.</p>
+      <p class="lead">Swimming pool, sports bar with billiards, cinema room, gaming room, and hotel-type rooms — all yours, all day, for one unforgettable experience.</p>
+      <a href="#rates" class="btn-gold" style="margin-top:0.5rem;">View Rates ↓</a>
+    </div>
+  </div>
+</section>
+
+<!-- AMENITIES -->
+<section class="amenities-section" id="amenities">
+  <div class="amenities-header reveal">
+    <div class="eyebrow center">Everything Included</div>
+    <h2 class="section-title">World-Class <em>Amenities</em></h2>
+    <p>One flat rate covers everything. No add-ons, no surprises — just pure enjoyment for you and your group.</p>
+  </div>
+  <div class="amenities-grid">
+    <div class="amenity-card reveal"><div class="icon-wrap">🏊</div><h3>Swimming Pool</h3><p>Take a refreshing dip in our private pool. Spacious, pristine, and all yours — perfect for groups and sunny highland afternoons.</p><span class="tag">Highlight</span></div>
+    <div class="amenity-card reveal"><div class="icon-wrap">🎱</div><h3>Sports Bar</h3><p>Chill at our stylish sports bar with billiards. Great vibes, and yes — even the pool table comes with a view.</p></div>
+    <div class="amenity-card reveal"><div class="icon-wrap">🎬</div><h3>Cinema Room</h3><p>Movie nights got an upgrade. Settle into our cozy private cinema for a big-screen experience you won't forget.</p></div>
+    <div class="amenity-card reveal"><div class="icon-wrap">🎮</div><h3>Gaming Room</h3><p>Level up your staycation in our dedicated gaming room. Console wars, friendly competition, or just a chill session — game on.</p></div>
+    <div class="amenity-card reveal"><div class="icon-wrap">🛏️</div><h3>Hotel-Type Rooms</h3><p>Rest in our beautifully appointed hotel-style rooms — immaculately clean and designed for total comfort.</p></div>
+    <div class="amenity-card reveal"><div class="icon-wrap">🔒</div><h3>100% Exclusive</h3><p>The entire property is yours and yours alone. No strangers, no shared spaces — just your group in total privacy.</p><span class="tag">Exclusive</span></div>
+  </div>
+</section>
+
+<!-- GALLERY -->
+<section class="gallery-section" id="gallery">
+  <div class="gallery-header reveal">
+    <div class="eyebrow center">Our Space</div>
+    <h2 class="section-title">A Glimpse of <em>Paradise</em></h2>
+  </div>
+  <div class="gallery-mosaic">
+    <div class="gi a"><img src="https://images.unsplash.com/photo-1582268611958-ebfd161ef9cf?w=800&q=80" alt="Pool"/></div>
+    <div class="gi b"><img src="https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=600&q=80" alt="Room"/></div>
+    <div class="gi c"><img src="https://images.unsplash.com/photo-1596394516093-501ba68a0ba6?w=600&q=80" alt="Lounge"/></div>
+    <div class="gi d"><img src="https://images.unsplash.com/photo-1571003123894-1f0594d2b5d9?w=800&q=80" alt="Bedroom"/></div>
+    <div class="gi e"><img src="https://images.unsplash.com/photo-1566665797739-1674de7a421a?w=600&q=80" alt="Suite"/></div>
+    <div class="gi f"><img src="https://images.unsplash.com/photo-1540541338287-41700207dee6?w=800&q=80" alt="Outdoor"/></div>
+    <div class="gi g"><img src="https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=600&q=80" alt="View"/></div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="pricing-section" id="rates">
+  <div class="pricing-header reveal">
+    <div class="eyebrow center">Rates & Packages</div>
+    <h2 class="section-title">Simple, <em>Transparent</em> Pricing</h2>
+    <p>All amenities included in one flat rate. No hidden charges — just show up and enjoy.</p>
+  </div>
+  <div class="pricing-wrapper">
+    <div class="price-card reveal">
+      <div class="card-top">
+        <p class="plan-label">Standard Rate</p>
+        <div class="price"><sup>₱</sup>25,000</div>
+        <p class="duration">22-hour exclusive use</p>
+      </div>
+      <div class="card-body">
+        <p class="card-pax">Up to 20 Guests</p>
+        <ul class="card-features">
+          <li>Full private use of the property</li>
+          <li>Swimming Pool</li>
+          <li>Sports Bar with Billiards</li>
+          <li>Cinema Room</li>
+          <li>Gaming Room</li>
+          <li>Hotel-Type Rooms</li>
+        </ul>
+      </div>
+      <div class="card-footer"><a href="https://www.facebook.com/p/Deluxe-View-Tagaytay-Private-Staycation-61559700257659/" target="_blank" class="btn-teal">Book on Facebook</a></div>
+    </div>
+    <div class="price-card featured reveal">
+      <div class="card-top">
+        <span class="best-tag">✦ Best Value</span>
+        <p class="plan-label">Complete Package</p>
+        <div class="price"><sup>₱</sup>25,000</div>
+        <p class="duration">22 hours · All-Inclusive</p>
+      </div>
+      <div class="card-body">
+        <p class="card-pax">20 Guests · 100% Exclusive</p>
+        <ul class="card-features">
+          <li>Everything in Standard</li>
+          <li>Entire venue exclusively yours</li>
+          <li>Perfect for birthdays & reunions</li>
+          <li>Team outings & celebrations</li>
+          <li>Cool Tagaytay highland climate</li>
+          <li>Inquire for special arrangements</li>
+        </ul>
+      </div>
+      <div class="card-footer"><a href="tel:09175921991" class="btn-teal">Call 0917 592 1991</a></div>
+    </div>
+  </div>
+  <p style="text-align:center;margin-top:2rem;color:var(--text-muted);font-size:0.85rem;">
+    Message us on <a href="https://www.facebook.com/p/Deluxe-View-Tagaytay-Private-Staycation-61559700257659/" style="color:var(--teal);" target="_blank">Facebook</a> or <a href="https://www.instagram.com/deluxeviewtags/" style="color:var(--teal);" target="_blank">Instagram</a> to check availability.
+  </p>
+</section>
+
+<!-- LOCATION -->
+<section class="location-section" id="location">
+  <div class="location-inner">
+    <div class="reveal">
+      <div class="eyebrow">Find Us</div>
+      <h2 class="section-title">In the <em>Heart</em> of Tagaytay</h2>
+      <p>Just a short drive south of Metro Manila, Tagaytay is beloved for its cool highland air, stunning views of Taal Lake and Volcano, and relaxed pace of life.</p>
+      <div class="loc-details">
+        <div class="loc-row"><span class="ico">📍</span><div><strong>Location</strong><span>Tagaytay City, Cavite, Philippines</span></div></div>
+        <div class="loc-row"><span class="ico">🚗</span><div><strong>From Metro Manila</strong><span>~1 to 1.5 hours via SLEX + Sta. Rosa–Tagaytay Road</span></div></div>
+        <div class="loc-row"><span class="ico">🌡️</span><div><strong>Climate</strong><span>Cool 18–24°C highland weather year-round</span></div></div>
+        <div class="loc-row"><span class="ico">📞</span><div><strong>Contact</strong><span>0917 592 1991 — exact address given upon booking</span></div></div>
+      </div>
+    </div>
+    <div class="loc-map reveal">
+      <div class="pin">📍</div>
+      <h3>Tagaytay, Cavite</h3>
+      <p>Cool Climate · Taal View · Private Retreat</p>
+      <a href="https://www.google.com/maps/search/Tagaytay+City+Cavite" target="_blank">Open in Google Maps ↗</a>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="testimonials-section">
+  <div class="testimonials-header reveal">
+    <div class="eyebrow center">Happy Guests</div>
+    <h2 class="section-title">Memories <span class="gold">Made Here</span></h2>
+  </div>
+  <div class="testimonials-grid">
+    <div class="testi-card reveal"><div class="q">"</div><div class="stars">★★★★★</div><p class="txt">The best barkada trip we've ever had! The pool, cinema, and billiards — we didn't want to leave. The cool Tagaytay weather made everything even better.</p><p class="auth">— Bea M. · Birthday Group</p></div>
+    <div class="testi-card reveal"><div class="q">"</div><div class="stars">★★★★★</div><p class="txt">Having the whole place to ourselves was a total game changer. The rooms were spotless and the amenities were beyond what we expected for the price.</p><p class="auth">— Carlo V. · Family Reunion</p></div>
+    <div class="testi-card reveal"><div class="q">"</div><div class="stars">★★★★★</div><p class="txt">Our kids loved the pool while us parents chilled at the sports bar. Truly an unforgettable staycation. Already planning our next trip back!</p><p class="auth">— Jen L. · Family Group</p></div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <h2 class="section-title reveal">Ready to <em>Escape?</em></h2>
+  <p class="reveal">Secure your dates now — De'Luxe View fills up fast. Get the whole place to yourself and your people.</p>
+  <a href="tel:09175921991" class="cta-phone reveal">📞 0917 592 1991</a>
+  <div class="cta-btns reveal">
+    <a href="https://www.facebook.com/p/Deluxe-View-Tagaytay-Private-Staycation-61559700257659/" target="_blank" class="btn-white">Book on Facebook</a>
+    <a href="https://www.instagram.com/deluxeviewtags/" target="_blank" class="btn-teal-dark">Instagram DM</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <span class="footer-logo">De'<em>Luxe</em> View</span>
+      <p>Tagaytay's premier private staycation. Swimming pool, cinema, sports bar, gaming room, and hotel-type rooms — all exclusively yours.</p>
+      <div class="footer-socials">
+        <a href="https://www.facebook.com/p/Deluxe-View-Tagaytay-Private-Staycation-61559700257659/" target="_blank" class="soc-btn">f</a>
+        <a href="https://www.instagram.com/deluxeviewtags/" target="_blank" class="soc-btn">✦</a>
+        <a href="tel:09175921991" class="soc-btn">📞</a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>Quick Links</h4>
+      <ul>
+        <li><a href="#about">About</a></li>
+        <li><a href="#amenities">Amenities</a></li>
+        <li><a href="#gallery">Gallery</a></li>
+        <li><a href="#rates">Rates</a></li>
+        <li><a href="#location">Location</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Book & Inquire</h4>
+      <ul>
+        <li><a href="tel:09175921991">📞 0917 592 1991</a></li>
+        <li><a href="https://www.facebook.com/p/Deluxe-View-Tagaytay-Private-Staycation-61559700257659/" target="_blank">Facebook Page</a></li>
+        <li><a href="https://www.instagram.com/deluxeviewtags/" target="_blank">Instagram</a></li>
+        <li><a href="#rates">View Rates</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom"><p>© 2025 De'Luxe View — Tagaytay Private Staycation. All rights reserved.</p></div>
+</footer>
+
+<script>
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => nav.classList.toggle('scrolled', window.scrollY > 60));
+  const els = document.querySelectorAll('.reveal');
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) { setTimeout(() => e.target.classList.add('up'), i * 90); obs.unobserve(e.target); }
+    });
+  }, { threshold: 0.1 });
+  els.forEach(el => obs.observe(el));
+</script>
+</body>
+</html>
